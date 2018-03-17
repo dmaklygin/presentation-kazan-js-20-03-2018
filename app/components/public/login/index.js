@@ -22,27 +22,19 @@ import './index.scss';
 export class Login extends Component {
   static propTypes = {
     ...reduxFormPropTypes,
-  }
-
-  state = {
-    loading: false
-  }
+    signIn: PT.func.isRequired,
+  };
 
   componentWillMount() {
     this.props.initialize({})
   }
 
-  componentWillUpdate(nextProps) {
-    console.log('UPDATE!')
-  }
-
   handleOnSubmit = (payload) => {
     return this.props.signIn(payload)
       .then(() => {
-        debugger
         this.props.history.push('/')
       })
-      .catch((err) => {
+      .catch(() => {
         throw new SubmissionError({
           _error: 'Логин или пароль введены неверно'
         })
@@ -54,8 +46,6 @@ export class Login extends Component {
 
     return (
       <div className="app-login">
-        {this.state.loading && (<div className="app-login__overlay">Загрузка...</div>)}
-
         <Form onSubmit={handleSubmit(this.handleOnSubmit)} autoComplete="on" name="loginForm">
           {submitFailed && <Error message="Логин или пароль введены неверно" />}
 
@@ -87,6 +77,7 @@ export class Login extends Component {
     )
   }
 }
+
 const mapStateToProps = createSelector(
   getFormValues('loginForm'),
   (fields) => ({fields})

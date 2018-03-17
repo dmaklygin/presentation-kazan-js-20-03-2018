@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {Route, Switch} from 'react-router-dom'
 
 import PrivateRoute from 'components/_lib/private_route'
-
 import App from './app'
 import Public from './public'
 

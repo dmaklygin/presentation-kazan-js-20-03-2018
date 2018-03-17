@@ -10,6 +10,11 @@
     "babel-plugin-transform-object-rest-spread"
   ],
   "env": {
+    "test": {
+      "plugins": [
+        "rewire"
+      ]
+    },
     "development": {
       "plugins": [
         "transform-react-jsx-source",

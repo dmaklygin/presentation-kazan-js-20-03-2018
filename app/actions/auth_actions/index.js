@@ -1,6 +1,7 @@
 import request from '_lib/request'
 import urls from 'config/urls'
 import * as types from 'action_constants/auth'
+import {errorResponse} from 'actions/error_actions'
 
 export const signIn = (payload) => (dispatch, getState) => {
   return request.post(urls.account.singin, payload)
@@ -10,4 +11,5 @@ export const signIn = (payload) => (dispatch, getState) => {
         token,
       })
     })
+    .catch((e) => dispatch(errorResponse(e)));
 }
