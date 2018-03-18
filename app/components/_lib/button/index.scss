@@ -1,13 +1,9 @@
 .button {
   &.is-small {
-    font-size: 1em;
-  }
-
-  &.is-medium {
-    font-size: 1.5em;
+    font-size: .9em;
   }
 
   &.is-big {
-    font-size: 2em;
+    font-size: 1.5em;
   }
 }

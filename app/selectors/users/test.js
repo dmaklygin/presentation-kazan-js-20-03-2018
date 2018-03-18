@@ -11,7 +11,7 @@ describe('Users selectors', () => {
     users = fixtures.users
   })
 
-  describe('#getClients', () => {
+  describe('#getUsers', () => {
     it('returns users', () => {
       const users = [{}]
 

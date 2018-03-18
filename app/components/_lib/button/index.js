@@ -4,7 +4,7 @@ import './index.scss';
 import classnames from "classnames";
 
 const Button  = ({value, size, type, onClick, disabled}) => {
-  const className = classnames('button', `is-${size}`);
+  const className = classnames('button', 'btn', 'btn-block', `is-${size}`);
 
   return (
     <input type={type} className={className} onClick={onClick} value={value} disabled={disabled} />

@@ -38,14 +38,14 @@ describe('AuthActions', () => {
   })
 
   describe('#signIn', () => {
-    it('calls #request.post', () => {
+    it('', () => {
       return store.dispatch(signIn(payload)).then(() => {
         expect(request.post).to.be.calledOnce;
         expect(request.post).to.be.calledWith(urls.account.singin, payload);
       })
     });
 
-    context('when #request.post has not thrown an error', () => {
+    context(' ', () => {
       it('calls "types.SET_SESSION" action', () => {
         return store.dispatch(signIn(payload)).then(() => {
           const actions = store.getActions()
@@ -59,27 +59,37 @@ describe('AuthActions', () => {
     });
 
     context('when #request.post has thrown an error', () => {
-      let error = 'ERROR_1', errorResponse;
+      let error = 'ERROR_1', errorResponse, SubmissionError;
 
       beforeEach(() => {
         request = {
           post: spy(() => Promise.reject(error)),
         };
 
-        errorResponse = spy(() => ({type: 'ERROR'}))
+        errorResponse = spy(() => ({type: 'ERROR'}));
 
-        __RewireAPI__.__set__({request, errorResponse})
+        SubmissionError = spy();
+
+        __RewireAPI__.__set__({request, errorResponse, SubmissionError})
       });
 
       afterEach(() => {
-        __RewireAPI__.__ResetDependency__('errorResponse')
+        __RewireAPI__.__ResetDependency__('errorResponse');
+        __RewireAPI__.__ResetDependency__('SubmissionError');
       });
 
       it('calls #errorResponse action', () => {
-        return store.dispatch(signIn(payload)).then(() => {
+        return store.dispatch(signIn(payload)).catch(() => {
           expect(errorResponse).to.be.calledOnce;
           expect(errorResponse).to.be.calledWith(error);
         })
+      });
+
+      it('calls #SubmissionError', () => {
+        return store.dispatch(signIn(payload)).catch(() => {
+            expect(SubmissionError).to.be.calledOnce;
+            expect(SubmissionError).to.be.calledWith({_error: error});
+          });
       });
     });
   });

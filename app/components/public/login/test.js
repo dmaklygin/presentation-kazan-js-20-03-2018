@@ -5,7 +5,7 @@ import {Form, Field} from 'redux-form';
 import Button from 'components/_lib/button';
 
 describe('<Login />', () => {
-  let props, wrapper, instance, payload, SubmissionError;
+  let props, wrapper, instance, payload;
 
   beforeEach(() => {
     payload = {username: 1, password: 2};
@@ -13,16 +13,6 @@ describe('<Login />', () => {
     props = getProps();
     wrapper = shallow(<Login {...props} />);
     instance = wrapper.instance();
-
-    SubmissionError = spy();
-
-    __RewireAPI__.__set__({
-      SubmissionError,
-    })
-  });
-
-  afterEach(() => {
-    __RewireAPI__.__ResetDependency__('SubmissionError');
   });
 
   describe('#componentWillMount', () => {
@@ -39,26 +29,6 @@ describe('<Login />', () => {
           .then(() => {
             expect(props.history.push).to.be.calledOnce;
             expect(props.history.push).to.be.calledWith('/');
-          });
-      });
-    });
-
-    context('when #props.signIn rejected', () => {
-      it('calls #props.history.push', () => {
-        props = getProps({
-          signIn: () => Promise.reject(),
-        });
-        wrapper = shallow(<Login {...props} />);
-        instance = wrapper.instance();
-
-        return instance.handleOnSubmit.call(null, payload)
-          .catch((err) => {
-            const errorPayload = {
-              _error: 'Логин или пароль введены неверно'
-            }
-
-            expect(SubmissionError).to.be.calledOnce;
-            expect(SubmissionError).to.be.calledWith(errorPayload);
           });
       });
     });
@@ -148,7 +118,7 @@ describe('<Login />', () => {
       });
     });
 
-    context('when prop `pristine` is `false`', () => {
+    context('when prop `pristine` is `true`', () => {
       it('renders username <Button />', () => {
         expect(wrapper.find(Button).props()).to.shallowDeepEqual({
           value: 'Войти',
